@@ -12,7 +12,9 @@ st.write(
 title = st.text_input("Name On Smoothie")
 st.write("The Smoothie name will be:", title)
 
-session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session()
+
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('Fruit_name'))
 #st.dataframe(data=my_dataframe, use_container_width=True)
 
@@ -41,5 +43,3 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered!', icon="✅")
 
-cnx = st.connection("snowflake")
-session = cnx.session()
